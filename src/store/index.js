@@ -1,0 +1,17 @@
+import Vue from "vue";
+import Vuex from 'vuex';
+import product from './modules/product';
+Vue.use(Vuex);
+
+const store = new Vuex.Store({
+    state:{
+        accessToken:null
+    },
+    getters:{
+
+    },
+    modules:{
+        product,
+    }
+});
+export default store;
