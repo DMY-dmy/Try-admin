@@ -23,7 +23,6 @@ export default {
         return {};
     },
     components: { Zhu ,Bing ,Zhe ,San},
-    
 }
 </script>
 <style scoped lang='scss'>

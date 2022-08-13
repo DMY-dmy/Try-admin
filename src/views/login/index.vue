@@ -2,11 +2,11 @@
     <div class='login-all'>
         <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="ruleForm">
             <h3 class="title">宣白后台管理系统</h3>
-            <el-form-item label="用户名" prop="name">
-                <el-input v-model="ruleForm.name" type="text" placeholder="请输入用户名"></el-input>
+            <el-form-item label="用户名" >
+                <el-input v-model="ruleForm.userName" type="text" placeholder="请输入用户名"></el-input>
             </el-form-item>
-            <el-form-item label="密码" prop="pwd">
-                <el-input type="password" v-model="ruleForm.pwd" placeholder="请输入密码"></el-input>
+            <el-form-item label="密码" >
+                <el-input type="password" v-model="ruleForm.password" placeholder="请输入密码"></el-input>
             </el-form-item>
             <el-form-item>
                 <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
@@ -21,8 +21,8 @@ export default {
   data(){
     return{
         ruleForm:{
-            name:'',
-            pwd:'',
+            userName:'',
+            password:'',
         },
         rules: {
             name: [
@@ -37,21 +37,44 @@ export default {
     }
   },
   methods:{
+    // 点击登录
     submitForm() {
-        this.$refs.ruleForm.validate(valid => {
-          if (valid) {
-            this.$router.push({path:'/'});
-            console.log(this.ruleForm.name,this.ruleForm.pwd);
-          } else {
-            return false;
-          }
-        });
+        var name = this.ruleForm.userName
+        var pass = this.ruleForm.password
+         if(name == 123 && pass == 123){   
+            this.setCookie(window.btoa(name),window.btoa(pass))         
+            this.$router.push('/')  
+        } else(
+            alert('用户名不存在或密码错误')
+        ) 
+    },
+    // 设置cookies
+    setCookie(c_name,c_pwd){
+        window.document.cookie = 'userName'+"="+c_name
+        window.document.cookie = 'userPwd'+"="+c_pwd
+    },
+    getCookie:function(){
+        if(document.cookie.length > 0){
+            var arr = document.cookie.split(';')
+            for(var i=0;i<arr.length;i++){
+                var arr2 = arr[i].split('=')
+                if(arr2[0]=='userName'){
+                    this.ruleForm.userName=arr2[1]
+                }else if(arr2[0]=='userPwd'){
+                    this.ruleForm.password=arr2[1];
+                }
+            }
+        }
     },
     resetForm() {
         this.ruleForm.name = '';
         this.ruleForm.pwd = '';
     }
-  }
+  },
+  mounted(){
+    // this.getCookie()
+    }
+
 }
 </script>
 <style  lang='scss'>
